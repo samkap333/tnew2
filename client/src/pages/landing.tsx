@@ -1,48 +1,48 @@
-import { useState } from "react";
-import { Play } from "lucide-react";
-import QualificationModal from "@/components/QualificationModal";
-import FAQAccordion from "@/components/FAQAccordion";
-import { Button } from "@/components/ui/button";
+import QualificationModal from "@/components/QualificationModal"
+import FAQAccordion from "@/components/FAQAccordion"
+import { Button } from "@/components/ui/button"
+import Img from "../assets/Taibapic.png"
+import p1 from "../assets/p1.png"
+import p2 from "../assets/p2.png"
+import p3 from "../assets/p3.png"
+import p4 from "../assets/p4.png"
+import TestimonialsSection from "./testimonialVideos"
+import TestimonialCarousel from "./testimonialCarousel"
 
 export default function Landing() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <header className="glass-effect py-6">
+      <header className="glass-effect py-4 sm:py-6">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-black text-2xl font-bold tracking-wide fade-in-up">
+          <h1 className="text-black text-lg sm:text-xl md:text-2xl font-bold tracking-wide fade-in-up">
             Attention Coaches, Consultants & Service Providers
           </h1>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="py-16 lg:py-24">
+      <section className="py-8 sm:py-12 md:py-16 lg:py-24">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-            <div className="text-center lg:text-left">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-black hero-title mb-8 leading-tight tracking-tight slide-in-left delay-200">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center max-w-6xl mx-auto">
+            <div className="text-center lg:text-left order-2 lg:order-1">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black hero-title mb-6 sm:mb-8 leading-tight tracking-tight slide-in-left delay-200">
                 Boost Your One-On-One Sales Conversions With Psychology Backed Strategies
               </h2>
-              <p className="text-lg md:text-xl text-black/90 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium slide-in-left delay-400">
-                In the one-on-one clarity call, I'll share my tried-and-tested sales strategies to help you close more sales in a simple and fun way—no pressure, just easy conversations that turn into happy clients!
+              <p className="text-base sm:text-lg md:text-xl text-black/90 mb-8 sm:mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium slide-in-left delay-400">
+                In the one-on-one clarity call, I'll share my tried-and-tested sales strategies to help you close more
+                sales in a simple and fun way—no pressure, just easy conversations that turn into happy clients!
               </p>
-              <button
-                onClick={openModal}
-                className="premium-button text-lg md:text-xl px-8 md:px-12 py-4 md:py-6 scale-in delay-600"
-              >
-                Book Your Clarity Call Now
-              </button>
+              <QualificationModal>
+                <button className="premium-button text-base sm:text-lg md:text-xl px-6 sm:px-8 md:px-12 py-4 sm:py-6 md:py-8 scale-in delay-600 w-full sm:w-auto">
+                  Book Your Clarity Call Now
+                </button>
+              </QualificationModal>
             </div>
-            <div className="text-center">
-              <div className="premium-card w-72 md:w-80 lg:w-96 h-80 md:h-96 lg:h-[500px] mx-auto overflow-hidden floating-animation slide-in-right delay-300">
+            <div className="text-center order-1 lg:order-2">
+              <div className="premium-card w-60 sm:w-72 md:w-80 lg:w-96 h-72 sm:h-80 md:h-96 lg:h-[500px] mx-auto overflow-hidden floating-animation slide-in-right delay-300">
                 <img
-                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=800"
+                  src={Img || "/placeholder.svg"}
                   alt="Professional business coach Taiba Mahmood"
                   className="w-full h-full object-cover"
                 />
@@ -53,303 +53,245 @@ export default function Landing() {
       </section>
 
       {/* Statistics Section */}
-      <section className="py-8">
-        <div className="container mx-auto px-4">
-          <div className="premium-card p-12 max-w-6xl mx-auto fade-in-up delay-200">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 text-center">
-              <div className="scale-in delay-300">
-                <div className="text-4xl md:text-5xl lg:text-6xl font-black text-bright-pink mb-3">11K+</div>
-                <div className="text-black font-bold text-lg md:text-xl">LinkedIn Community</div>
-              </div>
-              <div className="scale-in delay-400">
-                <div className="text-4xl md:text-5xl lg:text-6xl font-black text-bright-pink mb-3">4+</div>
-                <div className="text-black font-bold text-lg md:text-xl">Years Of Experience</div>
-              </div>
-              <div className="scale-in delay-500">
-                <div className="text-4xl md:text-5xl lg:text-6xl font-black text-bright-pink mb-3">100+</div>
-                <div className="text-black font-bold text-lg md:text-xl">Happy Clients</div>
-              </div>
-              <div className="scale-in delay-600">
-                <div className="text-4xl md:text-5xl lg:text-6xl font-black text-bright-pink mb-3">240</div>
-                <div className="text-black font-bold text-lg md:text-xl">Members</div>
-              </div>
+      <section className="w-full bg-white py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+            {/* LinkedIn Community Card */}
+            <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 text-center transform transition duration-300 hover:scale-105 hover:shadow-2xl border border-pink-100">
+              <h3 className="text-2xl sm:text-3xl lg:text-5xl font-extrabold text-bright-pink mb-2 sm:mb-3">11K+</h3>
+              <p className="text-gray-800 font-semibold text-sm sm:text-base lg:text-lg">LinkedIn Community</p>
+            </div>
+
+            {/* Years of Experience Card */}
+            <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 text-center transform transition duration-300 hover:scale-105 hover:shadow-2xl border border-pink-100 delay-100">
+              <h3 className="text-2xl sm:text-3xl lg:text-5xl font-extrabold text-bright-pink mb-2 sm:mb-3">4+</h3>
+              <p className="text-gray-800 font-semibold text-sm sm:text-base lg:text-lg">Years of Experience</p>
+            </div>
+
+            {/* Happy Clients Card */}
+            <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 text-center transform transition duration-300 hover:scale-105 hover:shadow-2xl border border-pink-100 delay-200">
+              <h3 className="text-2xl sm:text-3xl lg:text-5xl font-extrabold text-bright-pink mb-2 sm:mb-3">100+</h3>
+              <p className="text-gray-800 font-semibold text-sm sm:text-base lg:text-lg">Happy Clients</p>
+            </div>
+
+            {/* Members Card */}
+            <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 text-center transform transition duration-300 hover:scale-105 hover:shadow-2xl border border-pink-100 delay-300">
+              <h3 className="text-2xl sm:text-3xl lg:text-5xl font-extrabold text-bright-pink mb-2 sm:mb-3">240</h3>
+              <p className="text-gray-800 font-semibold text-sm sm:text-base lg:text-lg">Members</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Highlights Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-black text-center mb-16 tracking-tight fade-in-up delay-100">
+      {/* Highlights Section - Mobile Optimized */}
+      <section className="py-12 sm:py-16 relative bg-pink-50">
+        <div className="container mx-auto px-4 relative">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-black text-center mb-12 sm:mb-16 lg:mb-20 tracking-tight fade-in-up delay-100">
             Highlights of the clarity call
           </h2>
-          <div className="max-w-4xl mx-auto relative">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-              {/* Left side highlights */}
-              <div className="space-y-8">
-                <div className="premium-card p-6 md:p-8 lg:p-10 text-center slide-in-left delay-200">
-                  <h3 className="font-black text-bright-pink text-lg md:text-xl lg:text-2xl">Develop Sales Mindset</h3>
-                </div>
-                <div className="premium-card p-6 md:p-8 lg:p-10 text-center lg:ml-12 slide-in-left delay-400">
-                  <h3 className="font-black text-bright-pink text-lg md:text-xl lg:text-2xl">Hit Your Sales Goals Every Month</h3>
-                </div>
-              </div>
 
-              {/* Center circular diagram */}
-              <div className="flex justify-center lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
-                <div className="relative w-48 md:w-56 lg:w-60 h-48 md:h-56 lg:h-60 scale-in delay-300">
-                  <div className="w-full h-full rounded-full border-4 md:border-6 lg:border-8 border-bright-pink relative overflow-hidden shadow-pink floating-animation">
-                    <div className="absolute inset-0 rounded-full bg-button-gradient"></div>
-                    <div className="absolute inset-4 bg-blanco rounded-full flex items-center justify-center">
-                      <div className="grid grid-cols-2 gap-2 md:gap-3 text-2xl md:text-3xl lg:text-4xl">
-                        <div className="text-bright-pink">🧠</div>
-                        <div className="text-deep-pink">👥</div>
-                        <div className="text-bright-pink">💰</div>
-                        <div className="text-deep-pink">📈</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+          {/* Mobile/Tablet Layout */}
+          <div className="block lg:hidden">
+            <div className="text-center mb-8">
+              <div className="w-48 sm:w-56 md:w-64 h-48 sm:h-56 md:h-64 rounded-full mx-auto overflow-hidden">
+                <img
+                  src={p1 || "/placeholder.svg"}
+                  alt="Main Circle"
+                  className="w-full h-full object-cover rounded-full border-4 border-white shadow-2xl"
+                />
               </div>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-2xl mx-auto">
+              <div className="premium-card p-4 sm:p-6 text-center shadow-lg bg-white rounded-lg">
+                <h3 className="font-black text-bright-pink text-base sm:text-lg">Develop Sales Mindset</h3>
+              </div>
+              <div className="premium-card p-4 sm:p-6 text-center shadow-lg bg-white rounded-lg">
+                <h3 className="font-black text-bright-pink text-base sm:text-lg">Understand Buyer Psychology</h3>
+              </div>
+              <div className="premium-card p-4 sm:p-6 text-center shadow-lg bg-white rounded-lg">
+                <h3 className="font-black text-bright-pink text-base sm:text-lg">Hit Your Sales Goals Every Month</h3>
+              </div>
+              <div className="premium-card p-4 sm:p-6 text-center shadow-lg bg-white rounded-lg">
+                <h3 className="font-black text-bright-pink text-base sm:text-lg">
+                  Unlock Secrets To Closing One-On-One Sales
+                </h3>
+              </div>
+            </div>
+          </div>
 
-              {/* Right side highlights */}
-              <div className="space-y-8">
-                <div className="premium-card p-6 md:p-8 lg:p-10 text-center slide-in-right delay-500">
-                  <h3 className="font-black text-bright-pink text-lg md:text-xl lg:text-2xl">Understand Buyer Psychology</h3>
-                </div>
-                <div className="premium-card p-6 md:p-8 lg:p-10 text-center lg:mr-12 slide-in-right delay-700">
-                  <h3 className="font-black text-bright-pink text-lg md:text-xl lg:text-2xl">Unlock Secrets To Closing One-On-One Sales</h3>
-                </div>
+          {/* Desktop Layout */}
+          <div className="hidden lg:block relative w-full h-[480px] flex items-center justify-center">
+            <div className="w-64 md:w-72 lg:w-80 h-64 md:h-72 lg:h-80 rounded-full z-10 relative">
+              <img
+                src={p1 || "/placeholder.svg"}
+                alt="Main Circle"
+                className="w-full h-full object-cover rounded-full border-4 border-white shadow-2xl"
+              />
+            </div>
+
+            {/* Desktop positioned cards */}
+            <div className="absolute top-[20%] left-[20%] transform -translate-x-1/2 -translate-y-1/2">
+              <div className="premium-card p-8 md:p-10 lg:p-12 text-center w-72 md:w-80 shadow-lg bg-white rounded-lg">
+                <h3 className="font-black text-bright-pink text-lg md:text-xl">Develop Sales Mindset</h3>
               </div>
             </div>
 
-            <div className="text-center mt-12">
-              <Button
-                onClick={openModal}
-                className="bg-white text-navy font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-              >
+            <div className="absolute top-[20%] right-[20%] transform translate-x-1/2 -translate-y-1/2">
+              <div className="premium-card p-8 md:p-10 lg:p-12 text-center w-72 md:w-80 shadow-lg bg-white rounded-lg">
+                <h3 className="font-black text-bright-pink text-lg md:text-xl">Understand Buyer Psychology</h3>
+              </div>
+            </div>
+
+            <div className="absolute bottom-[20%] left-[20%] transform -translate-x-1/2 translate-y-1/2">
+              <div className="premium-card p-8 md:p-10 lg:p-12 text-center w-72 md:w-80 shadow-lg bg-white rounded-lg">
+                <h3 className="font-black text-bright-pink text-lg md:text-xl">Hit Your Sales Goals Every Month</h3>
+              </div>
+            </div>
+
+            <div className="absolute bottom-[20%] right-[20%] transform translate-x-1/2 translate-y-1/2">
+              <div className="premium-card p-8 md:p-10 lg:p-12 text-center w-72 md:w-80 shadow-lg bg-white rounded-lg">
+                <h3 className="font-black text-bright-pink text-lg md:text-xl">
+                  Unlock Secrets To Closing One-On-One Sales
+                </h3>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA Button */}
+          <div className="text-center mt-8 sm:mt-12 lg:mt-16">
+            <QualificationModal>
+              <Button className="bg-gradient-to-r from-pink-400 to-pink-600 text-white font-semibold px-6 sm:px-10 lg:px-14 py-4 sm:py-6 lg:py-7 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 text-base sm:text-lg w-full sm:w-auto">
                 Book Your Clarity Call Now
               </Button>
-            </div>
+            </QualificationModal>
           </div>
         </div>
       </section>
 
       {/* Pain Points Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl lg:text-4xl font-bold text-white text-center mb-16">
+      <section className="py-16 sm:py-20 lg:py-24 bg-[#ffe4ec] relative overflow-hidden">
+        <div className="absolute -top-10 -left-10 w-72 h-72 bg-white/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-pink-300/10 rounded-full blur-2xl"></div>
+
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-center mb-12 sm:mb-16 lg:mb-20 text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-pink-600 to-fuchsia-600 drop-shadow-md">
             This call is for you if...
           </h2>
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <div className="glass-card rounded-2xl p-8 border-2 border-dashed border-white/40">
-              <p className="text-dark text-center leading-relaxed">
-                Struggling with fear of rejection and low confidence when selling? We train you to overcome fears and limiting beliefs so that you confidently close one-on-one sales.
-              </p>
-            </div>
-            <div className="glass-card rounded-2xl p-8 border-2 border-dashed border-white/40">
-              <p className="text-dark text-center leading-relaxed">
-                Struggling to justify your prices to clients? We help you show your true value with confidence.
-              </p>
-            </div>
-            <div className="glass-card rounded-2xl p-8 border-2 border-dashed border-white/40">
-              <p className="text-dark text-center leading-relaxed">
-                Struggling to handle objections effectively? We help you turn objections into opportunities to close sales calls.
-              </p>
-            </div>
-            <div className="glass-card rounded-2xl p-8 border-2 border-dashed border-white/40">
-              <p className="text-dark text-center leading-relaxed">
-                Struggling with low sales conversions? We help boost your conversion rates by 10-20% in your coaching or consulting business.
-              </p>
-            </div>
+
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 max-w-6xl mx-auto">
+            {[
+              {
+                text: "Struggling with fear of rejection and low confidence when selling? We train you to overcome fears and limiting beliefs so that you confidently close one-on-one sales.",
+              },
+              {
+                text: "Struggling to justify your prices to clients? We help you show your true value with confidence.",
+              },
+              {
+                text: "Struggling to handle objections effectively? We help you turn objections into opportunities to close sales calls.",
+              },
+              {
+                text: "Struggling with low sales conversions? We help boost your conversion rates by 10-20% in your coaching or consulting business.",
+              },
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="bg-white/30 border border-white/40 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-2xl transform transition-all hover:scale-105 hover:shadow-pink-200 duration-300"
+              >
+                <p className="text-black/90 text-base sm:text-lg font-medium leading-relaxed">{item.text}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Bonuses Section */}
-      <section className="py-16">
+      <section className="py-12 sm:py-16">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-8">
-            <Button
-              onClick={openModal}
-              className="bg-white text-navy font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 mb-12"
-            >
-              Book Your Clarity Call Now
-            </Button>
+          <div className="text-center mb-8 sm:mb-12">
+            <QualificationModal>
+              <Button className="bg-gradient-to-r from-pink-400 to-pink-600 text-white font-semibold px-6 sm:px-10 lg:px-14 py-4 sm:py-6 lg:py-7 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 text-base sm:text-lg w-full sm:w-auto">
+                Book Your Clarity Call Now
+              </Button>
+            </QualificationModal>
           </div>
 
-          <h2 className="text-3xl lg:text-4xl font-bold text-white text-center mb-16">Bonuses</h2>
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div className="bg-white rounded-2xl p-8 shadow-xl">
-              <h3 className="text-xl font-bold text-navy mb-6 text-center">Pre-Qualifying System</h3>
-              <div className="flex justify-center mb-6">
-                <img
-                  src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300"
-                  alt="Business checklist and qualification system"
-                  className="w-full h-48 object-cover rounded-lg"
-                />
-              </div>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black/80 text-center mb-12 sm:mb-16">Bonuses</h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+            <div className="w-full">
+              <img
+                src={p2 || "/placeholder.svg"}
+                alt="Business checklist and qualification system"
+                className="w-full h-48 sm:h-56 lg:h-64 object-cover rounded-lg"
+              />
             </div>
 
-            <div className="bg-white rounded-2xl p-8 shadow-xl">
-              <h3 className="text-xl font-bold text-navy mb-6 text-center">High Converting Sales Script</h3>
-              <div className="flex justify-center mb-6">
-                <img
-                  src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300"
-                  alt="Sales script and documentation"
-                  className="w-full h-48 object-cover rounded-lg"
-                />
-              </div>
+            <div className="w-full">
+              <img
+                src={p3 || "/placeholder.svg"}
+                alt="Business checklist and qualification system"
+                className="w-full h-48 sm:h-56 lg:h-64 object-cover rounded-lg"
+              />
             </div>
 
-            <div className="bg-white rounded-2xl p-8 shadow-xl">
-              <h3 className="text-xl font-bold text-navy mb-6 text-center">Energy Boosting Routine Guide</h3>
-              <div className="flex justify-center mb-6">
-                <img
-                  src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300"
-                  alt="Energy and motivation guide"
-                  className="w-full h-48 object-cover rounded-lg"
-                />
-              </div>
+            <div className="w-full sm:col-span-2 lg:col-span-1">
+              <img
+                src={p4 || "/placeholder.svg"}
+                alt="Business checklist and qualification system"
+                className="w-full h-48 sm:h-56 lg:h-64 object-cover rounded-lg"
+              />
             </div>
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <Button
-              onClick={openModal}
-              className="bg-white text-navy font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-            >
-              Book Your Clarity Call Now
-            </Button>
+      <section className="py-12 sm:py-16">
+        <div>
+          <div className="text-center mb-8 sm:mb-12 px-4">
+            <QualificationModal>
+              <Button className="bg-gradient-to-r from-pink-400 to-pink-600 text-white font-semibold px-6 sm:px-10 lg:px-14 py-4 sm:py-6 lg:py-7 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 text-base sm:text-lg w-full sm:w-auto">
+                Book Your Clarity Call Now
+              </Button>
+            </QualificationModal>
           </div>
 
-          <h2 className="text-3xl lg:text-4xl font-bold text-navy text-center mb-16">Testimonials</h2>
-
-          {/* Text Testimonial */}
-          <div className="max-w-4xl mx-auto mb-16">
-            <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-8 border border-white/30">
-              <div className="flex flex-col items-center text-center">
-                <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200"
-                  alt="Client testimonial photo"
-                  className="w-16 h-16 rounded-full object-cover mb-6"
-                />
-                <p className="text-navy text-lg mb-6 leading-relaxed max-w-2xl">
-                  "Hi Taiba, One more sales closed today! Thank you so much and lots of gratitude to you. Your inputs have really helped me. I am much more confident in pitching and closing sales on a daily basis."
-                </p>
-                <p className="font-semibold text-navy">Deepak Jaswani</p>
-              </div>
-            </div>
-          </div>
+          <TestimonialCarousel />
 
           {/* Video Testimonials Grid */}
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <div className="relative bg-black rounded-2xl overflow-hidden shadow-xl">
-              <div className="aspect-video relative">
-                <img
-                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=450"
-                  alt="Video testimonial thumbnail"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                  <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-700 transition-colors">
-                    <Play className="text-white text-xl ml-1" />
-                  </div>
-                </div>
-                <div className="absolute bottom-4 left-4 text-white text-sm bg-black/70 px-2 py-1 rounded">
-                  Here is what Aanandika Sood says ab...
-                </div>
-              </div>
-            </div>
-
-            <div className="relative bg-black rounded-2xl overflow-hidden shadow-xl">
-              <div className="aspect-video relative">
-                <img
-                  src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=450"
-                  alt="Video testimonial thumbnail"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                  <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-700 transition-colors">
-                    <Play className="text-white text-xl ml-1" />
-                  </div>
-                </div>
-                <div className="absolute bottom-4 left-4 text-white text-sm bg-black/70 px-2 py-1 rounded">
-                  Here is What Vidhya Chitta Says about...
-                </div>
-              </div>
-            </div>
-
-            <div className="relative bg-black rounded-2xl overflow-hidden shadow-xl">
-              <div className="aspect-video relative">
-                <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=450"
-                  alt="Video testimonial thumbnail"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                  <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-700 transition-colors">
-                    <Play className="text-white text-xl ml-1" />
-                  </div>
-                </div>
-                <div className="absolute bottom-4 left-4 text-white text-sm bg-black/70 px-2 py-1 rounded">
-                  Here is what Khushboo Says about ou...
-                </div>
-              </div>
-            </div>
-
-            <div className="relative bg-black rounded-2xl overflow-hidden shadow-xl">
-              <div className="aspect-video relative">
-                <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=450"
-                  alt="Video testimonial thumbnail"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                  <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-700 transition-colors">
-                    <Play className="text-white text-xl ml-1" />
-                  </div>
-                </div>
-                <div className="absolute bottom-4 left-4 text-white text-sm bg-black/70 px-2 py-1 rounded">
-                  Here is what Deepak says about our s...
-                </div>
-              </div>
-            </div>
-          </div>
+          <TestimonialsSection />
         </div>
       </section>
 
       {/* About Section */}
-      <section className="py-16">
+      <section className="py-12 sm:py-16">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <Button
-              onClick={openModal}
-              className="bg-white text-navy font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-            >
-              Book Your Clarity Call Now
-            </Button>
+          <div className="text-center mb-8 sm:mb-12">
+            <QualificationModal>
+              <Button className="bg-gradient-to-r from-pink-400 to-pink-600 text-white font-semibold px-6 sm:px-10 lg:px-14 py-4 sm:py-6 lg:py-7 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 text-base sm:text-lg w-full sm:w-auto">
+                Book Your Clarity Call Now
+              </Button>
+            </QualificationModal>
           </div>
 
-          <h2 className="text-3xl lg:text-4xl font-bold text-navy text-center mb-16">About The Coach</h2>
-          <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-            <div>
-              <h3 className="text-2xl font-bold text-navy mb-6">Hi, I'm Taiba Mahmood!</h3>
-              <p className="text-navy leading-relaxed text-lg">
-                For the past 4 years, I've helped coaches like you close more sales by using my Psychology-backed strategies. I believe selling is serving, and it should feel natural and fun. My mission is to make sales effortless by teaching simple principles of human psychology. With my strategies, you'll overcome limiting beliefs related to sales, and gain the step-by-step skillset to close sales calls confidently. Ready to boost your sales conversions? Let's make sales simple, easy and fun for you!
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-navy text-center mb-12 sm:mb-16">About The Coach</h2>
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center max-w-6xl mx-auto">
+            <div className="order-2 lg:order-1">
+              <h3 className="text-2xl sm:text-3xl font-bold text-pink-700 mb-4 sm:mb-6 text-center lg:text-left">Hi, I'm Taiba Mahmood!</h3>
+              <p className="text-navy leading-relaxed text-base sm:text-lg text-center lg:text-left">
+                For the past 4 years, I've helped coaches like you close more sales by using my Psychology-backed
+                strategies. I believe selling is serving, and it should feel natural and fun. My mission is to make
+                sales effortless by teaching simple principles of human psychology. With my strategies, you'll overcome
+                limiting beliefs related to sales, and gain the step-by-step skillset to close sales calls confidently.
+                Ready to boost your sales conversions? Let's make sales simple, easy and fun for you!
               </p>
             </div>
-            <div className="text-center">
+            <div className="text-center order-1 lg:order-2">
               <img
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&h=600"
+                src={Img || "/placeholder.svg"}
                 alt="Professional business coach Taiba Mahmood portrait"
-                className="rounded-2xl shadow-2xl w-80 h-96 object-cover mx-auto"
+                className="rounded-2xl shadow-2xl w-64 sm:w-72 md:w-80 h-72 sm:h-80 md:h-96 object-cover mx-auto"
               />
             </div>
           </div>
@@ -357,59 +299,55 @@ export default function Landing() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-16">
+      <section className="py-12 sm:py-16">
         <div className="container mx-auto px-4 text-center">
-          <div className="text-center mb-12">
-            <Button
-              onClick={openModal}
-              className="bg-white text-navy font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-            >
-              Book Your Clarity Call Now
-            </Button>
+          <div className="text-center mb-8 sm:mb-12">
+            <QualificationModal>
+              <Button className="bg-gradient-to-r from-pink-400 to-pink-600 text-white font-semibold px-6 sm:px-10 lg:px-14 py-4 sm:py-6 lg:py-7 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 text-base sm:text-lg w-full sm:w-auto">
+                Book Your Clarity Call Now
+              </Button>
+            </QualificationModal>
           </div>
 
-          <h2 className="text-3xl lg:text-4xl font-bold text-navy mb-6">Still wondering if the call is for you?</h2>
-          <p className="text-lg text-navy/80 mb-8 max-w-3xl mx-auto leading-relaxed">
-            If you want to close more sales in your coaching or consulting business, mastering one-on-one sales is the best path forward. We've crafted comprehensive sales strategies to help you close more sales consistently within 90 days.
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-navy mb-4 sm:mb-6">Still wondering if the call is for you?</h2>
+          <p className="text-base sm:text-lg text-navy/80 mb-8 max-w-3xl mx-auto leading-relaxed">
+            If you want to close more sales in your coaching or consulting business, mastering one-on-one sales is the
+            best path forward. We've crafted comprehensive sales strategies to help you close more sales consistently
+            within 90 days.
           </p>
 
-          <Button
-            onClick={openModal}
-            className="bg-white text-navy font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 mb-16"
-          >
-            Book Your Clarity Call Now
-          </Button>
+          <QualificationModal>
+            <Button className="bg-gradient-to-r from-pink-400 to-pink-600 text-white font-semibold px-6 sm:px-10 lg:px-14 py-4 sm:py-6 lg:py-7 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 text-base sm:text-lg w-full sm:w-auto mb-8 sm:mb-12">
+              Book Your Clarity Call Now
+            </Button>
+          </QualificationModal>
 
           <div className="max-w-2xl mx-auto">
-            <blockquote className="text-2xl lg:text-3xl font-italic text-navy mb-4">
+            <blockquote className="text-xl sm:text-2xl lg:text-3xl font-italic text-navy mb-4 leading-relaxed">
               "The secret of selling is to stop selling and start helping."
             </blockquote>
-            <cite className="text-navy/70 font-medium">- Zig Ziglar</cite>
+            <cite className="text-navy/70 font-medium text-base sm:text-lg">- Zig Ziglar</cite>
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16">
+      <section className="py-12 sm:py-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl lg:text-4xl font-bold text-navy text-center mb-16">FAQs</h2>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-navy text-center mb-12 sm:mb-16">FAQs</h2>
           <div className="max-w-4xl mx-auto">
             <FAQAccordion />
 
-            <div className="text-center mt-12">
-              <Button
-                onClick={openModal}
-                className="bg-white text-navy font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-              >
-                Book Your Clarity Call Now
-              </Button>
+            <div className="text-center mt-8 sm:mt-12">
+              <QualificationModal>
+                <Button className="bg-gradient-to-r from-pink-400 to-pink-600 text-white font-semibold px-6 sm:px-10 lg:px-14 py-4 sm:py-6 lg:py-7 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 text-base sm:text-lg w-full sm:w-auto">
+                  Book Your Clarity Call Now
+                </Button>
+              </QualificationModal>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Qualification Modal */}
-      <QualificationModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
-  );
+  )
 }
