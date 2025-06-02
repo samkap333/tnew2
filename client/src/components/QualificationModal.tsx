@@ -11,9 +11,18 @@ import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import ThankYouPage from "@/components/ThankYouPage"
+
+
+declare global {
+  interface Window {
+    fbq: (action: string, event: string, data?: any) => void;
+  }
+}
+
+  const PIXEL_ID = '1573133173292370';
+
 
 const qualificationSchema = z.object({
   businessDescription: z.enum(["coach_consultant", "service_business", "working_professional", "student_fresher"], {
@@ -44,7 +53,6 @@ export function QualificationModal({ children }: QualificationModalProps) {
   const [showThankYou, setShowThankYou] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
-
   const {
     register,
     handleSubmit,
@@ -60,57 +68,93 @@ export function QualificationModal({ children }: QualificationModalProps) {
     },
   })
 
-  const onSubmit = async (data: QualificationFormData) => {
-    setIsSubmitting(true)
 
-    try {
-      // Check if this is a student/fresher with less than 1 year experience
-      const isTargetUser = data.businessDescription === "student_fresher" && data.businessYears === "less_than_1"
 
-      if (isTargetUser) {
-        console.log("🎯 TARGET USER DETECTED:", {
-          name: data.name,
-          email: data.email,
-          businessDescription: data.businessDescription,
-          businessYears: data.businessYears,
-        })
-      }
 
-      // Save data to Google Sheets
-      const response = await fetch("/api/save-to-sheets", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+
+const initializeMetaPixel = () => {
+  const script = document.createElement('script');
+  script.innerHTML = `
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '${PIXEL_ID}');
+    fbq('track', 'PageView');
+  `;
+  document.head.appendChild(script);
+};
+
+const onSubmit = async (data: QualificationFormData) => {
+  setIsSubmitting(true)
+
+  try {
+    // Check if this is a student/fresher with less than 1 year experience
+    const isTargetUser = data.businessDescription === "student_fresher" && data.businessYears === "less_than_1"
+
+    if (isTargetUser) {
+      console.log("🎯 TARGET USER DETECTED:", {
+        name: data.name,
+        email: data.email,
+        businessDescription: data.businessDescription,
+        businessYears: data.businessYears,
       })
-
-      if (!response.ok) {
-        throw new Error("Failed to save data")
-      }
-
-      const result = await response.json()
-
-      if (result.success) {
-        toast({
-          title: "Thank You!",
-          description: "Your information has been submitted successfully. We'll be in touch soon!",
-        })
-        setShowThankYou(true)
-      } else {
-        throw new Error(result.message || "Failed to save data")
-      }
-    } catch (error) {
-      console.error("Submission error:", error)
-      toast({
-        title: "Submission Failed",
-        description: "There was an error processing your form. Please try again.",
-        variant: "destructive",
-      })
-    } finally {
-      setIsSubmitting(false)
     }
+
+    // Save data to Google Sheets - Updated to use Netlify Functions
+    const response = await fetch("/.netlify/functions/api", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+      throw new Error("Failed to save data")
+    }
+
+    const result = await response.json()
+
+    if (result.success) {
+      // Initialize Meta Pixel and track the successful form submission
+      initializeMetaPixel();
+      
+      // Track the form submission event
+      setTimeout(() => {
+        if (typeof window !== 'undefined' && window.fbq) {
+          window.fbq('track', 'Lead', {
+            content_name: 'Qualification Form Submission',
+            content_category: 'Form',
+            value: 1,
+            currency: 'INR'
+          });
+        }
+      }, 1000);
+
+      toast({
+        title: "Thank You!",
+        description: "Your information has been submitted successfully. We'll be in touch soon!",
+      })
+      setShowThankYou(true)
+    } else {
+      throw new Error(result.message || "Failed to save data")
+    }
+  } catch (error) {
+    console.error("Submission error:", error)
+    toast({
+      title: "Submission Failed",
+      description: "There was an error processing your form. Please try again.",
+      variant: "destructive",
+    })
+  } finally {
+    setIsSubmitting(false)
   }
+}
 
   const nextStep = async () => {
     let fieldsToValidate: (keyof QualificationFormData)[] = []
@@ -179,8 +223,12 @@ export function QualificationModal({ children }: QualificationModalProps) {
                 {currentStep === 1 && (
                   <div className="space-y-4 sm:space-y-6">
                     <div className="text-center mb-6 sm:mb-8">
-                      <h3 className="text-xl sm:text-2xl font-semibold text-black mb-3 sm:mb-4">What best describes you?</h3>
-                      <p className="text-black/70 text-sm sm:text-base">Please select the option that best fits your situation</p>
+                      <h3 className="text-xl sm:text-2xl font-semibold text-black mb-3 sm:mb-4">
+                        What best describes you?
+                      </h3>
+                      <p className="text-black/70 text-sm sm:text-base">
+                        Please select the option that best fits your situation
+                      </p>
                     </div>
 
                     <RadioGroup
@@ -195,7 +243,10 @@ export function QualificationModal({ children }: QualificationModalProps) {
                             id="coach_consultant"
                             className="border-black text-black"
                           />
-                          <label htmlFor="coach_consultant" className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base">
+                          <label
+                            htmlFor="coach_consultant"
+                            className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base"
+                          >
                             I'm a coach/consultant running my own business
                           </label>
                         </div>
@@ -208,7 +259,10 @@ export function QualificationModal({ children }: QualificationModalProps) {
                             id="service_business"
                             className="border-bright-pink text-bright-pink"
                           />
-                          <label htmlFor="service_business" className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base">
+                          <label
+                            htmlFor="service_business"
+                            className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base"
+                          >
                             I run a service-based business
                           </label>
                         </div>
@@ -237,7 +291,10 @@ export function QualificationModal({ children }: QualificationModalProps) {
                             id="student_fresher"
                             className="border-bright-pink text-bright-pink"
                           />
-                          <label htmlFor="student_fresher" className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base">
+                          <label
+                            htmlFor="student_fresher"
+                            className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base"
+                          >
                             I'm a student/fresher
                           </label>
                         </div>
@@ -271,7 +328,10 @@ export function QualificationModal({ children }: QualificationModalProps) {
                             id="less_than_1"
                             className="border-bright-pink text-bright-pink"
                           />
-                          <label htmlFor="less_than_1" className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base">
+                          <label
+                            htmlFor="less_than_1"
+                            className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base"
+                          >
                             Less than 1 year
                           </label>
                         </div>
@@ -280,7 +340,10 @@ export function QualificationModal({ children }: QualificationModalProps) {
                       <div className="glass-effect rounded-xl p-3 sm:p-4 hover:bg-white/20 transition-colors">
                         <div className="flex items-center space-x-3">
                           <RadioGroupItem value="1_to_2" id="1_to_2" className="border-bright-pink text-bright-pink" />
-                          <label htmlFor="1_to_2" className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base">
+                          <label
+                            htmlFor="1_to_2"
+                            className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base"
+                          >
                             1–2 years
                           </label>
                         </div>
@@ -289,7 +352,10 @@ export function QualificationModal({ children }: QualificationModalProps) {
                       <div className="glass-effect rounded-xl p-3 sm:p-4 hover:bg-white/20 transition-colors">
                         <div className="flex items-center space-x-3">
                           <RadioGroupItem value="2_to_5" id="2_to_5" className="border-bright-pink text-bright-pink" />
-                          <label htmlFor="2_to_5" className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base">
+                          <label
+                            htmlFor="2_to_5"
+                            className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base"
+                          >
                             2–5 years
                           </label>
                         </div>
@@ -298,7 +364,10 @@ export function QualificationModal({ children }: QualificationModalProps) {
                       <div className="glass-effect rounded-xl p-3 sm:p-4 hover:bg-white/20 transition-colors">
                         <div className="flex items-center space-x-3">
                           <RadioGroupItem value="5_plus" id="5_plus" className="border-bright-pink text-bright-pink" />
-                          <label htmlFor="5_plus" className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base">
+                          <label
+                            htmlFor="5_plus"
+                            className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base"
+                          >
                             5+ years
                           </label>
                         </div>
@@ -315,7 +384,9 @@ export function QualificationModal({ children }: QualificationModalProps) {
                 {currentStep === 3 && (
                   <div className="space-y-4 sm:space-y-6">
                     <div className="text-center mb-6 sm:mb-8">
-                      <h3 className="text-xl sm:text-2xl font-semibold text-black mb-3 sm:mb-4">What is your current annual revenue?</h3>
+                      <h3 className="text-xl sm:text-2xl font-semibold text-black mb-3 sm:mb-4">
+                        What is your current annual revenue?
+                      </h3>
                     </div>
 
                     <RadioGroup
@@ -330,7 +401,10 @@ export function QualificationModal({ children }: QualificationModalProps) {
                             id="5_to_10_lakhs"
                             className="border-bright-pink text-bright-pink"
                           />
-                          <label htmlFor="5_to_10_lakhs" className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base">
+                          <label
+                            htmlFor="5_to_10_lakhs"
+                            className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base"
+                          >
                             ₹5–10 lakhs
                           </label>
                         </div>
@@ -343,7 +417,10 @@ export function QualificationModal({ children }: QualificationModalProps) {
                             id="10_to_25_lakhs"
                             className="border-bright-pink text-bright-pink"
                           />
-                          <label htmlFor="10_to_25_lakhs" className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base">
+                          <label
+                            htmlFor="10_to_25_lakhs"
+                            className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base"
+                          >
                             ₹10–25 lakhs
                           </label>
                         </div>
@@ -356,7 +433,10 @@ export function QualificationModal({ children }: QualificationModalProps) {
                             id="25_lakhs_plus"
                             className="border-bright-pink text-bright-pink"
                           />
-                          <label htmlFor="25_lakhs_plus" className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base">
+                          <label
+                            htmlFor="25_lakhs_plus"
+                            className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base"
+                          >
                             ₹25 lakhs+
                           </label>
                         </div>
@@ -440,7 +520,10 @@ export function QualificationModal({ children }: QualificationModalProps) {
                             id="lead_qualification"
                             className="border-bright-pink text-bright-pink"
                           />
-                          <label htmlFor="lead_qualification" className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base">
+                          <label
+                            htmlFor="lead_qualification"
+                            className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base"
+                          >
                             Lead Qualification
                           </label>
                         </div>
@@ -453,7 +536,10 @@ export function QualificationModal({ children }: QualificationModalProps) {
                             id="lead_nurturing"
                             className="border-bright-pink text-bright-pink"
                           />
-                          <label htmlFor="lead_nurturing" className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base">
+                          <label
+                            htmlFor="lead_nurturing"
+                            className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base"
+                          >
                             Lead Nurturing
                           </label>
                         </div>
@@ -466,7 +552,10 @@ export function QualificationModal({ children }: QualificationModalProps) {
                             id="objection_handling"
                             className="border-bright-pink text-bright-pink"
                           />
-                          <label htmlFor="objection_handling" className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base">
+                          <label
+                            htmlFor="objection_handling"
+                            className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base"
+                          >
                             Objection Handling
                           </label>
                         </div>
@@ -479,7 +568,10 @@ export function QualificationModal({ children }: QualificationModalProps) {
                             id="one_on_one_sales_closing"
                             className="border-bright-pink text-bright-pink"
                           />
-                          <label htmlFor="one_on_one_sales_closing" className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base">
+                          <label
+                            htmlFor="one_on_one_sales_closing"
+                            className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base"
+                          >
                             1:1 Sales Closing
                           </label>
                         </div>
@@ -487,12 +579,11 @@ export function QualificationModal({ children }: QualificationModalProps) {
 
                       <div className="glass-effect rounded-xl p-3 sm:p-4 hover:bg-white/20 transition-colors">
                         <div className="flex items-center space-x-3">
-                          <RadioGroupItem
-                            value="other"
-                            id="other"
-                            className="border-bright-pink text-bright-pink"
-                          />
-                          <label htmlFor="other" className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base">
+                          <RadioGroupItem value="other" id="other" className="border-bright-pink text-bright-pink" />
+                          <label
+                            htmlFor="other"
+                            className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base"
+                          >
                             Other
                           </label>
                         </div>
@@ -523,7 +614,10 @@ export function QualificationModal({ children }: QualificationModalProps) {
                       <div className="glass-effect rounded-xl p-3 sm:p-4 hover:bg-white/20 transition-colors">
                         <div className="flex items-center space-x-3">
                           <RadioGroupItem value="yes" id="yes" className="border-bright-pink text-bright-pink" />
-                          <label htmlFor="yes" className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base">
+                          <label
+                            htmlFor="yes"
+                            className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base"
+                          >
                             Yes, I'm open to being contacted
                           </label>
                         </div>
@@ -532,7 +626,10 @@ export function QualificationModal({ children }: QualificationModalProps) {
                       <div className="glass-effect rounded-xl p-3 sm:p-4 hover:bg-white/20 transition-colors">
                         <div className="flex items-center space-x-3">
                           <RadioGroupItem value="no" id="no" className="border-bright-pink text-bright-pink" />
-                          <label htmlFor="no" className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base">
+                          <label
+                            htmlFor="no"
+                            className="font-medium text-black cursor-pointer flex-1 text-sm sm:text-base"
+                          >
                             No, not at this time
                           </label>
                         </div>
