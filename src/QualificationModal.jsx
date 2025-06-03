@@ -167,10 +167,11 @@ const QualificationModal = ({ children }) => {
   };
 
   const isQualified = () => {
+    // Check if user selected any of the disqualifying options
     const isDisqualified = (
-      formData.businessType === 'student' &&
-      formData.yearsInBusiness === 'less-than-1' &&
-      formData.annualRevenue === '5-10' &&
+      formData.businessType === 'student' ||
+      formData.yearsInBusiness === 'less-than-1' ||
+      formData.annualRevenue === '5-10' ||
       formData.openToContact === 'no'
     );
     return !isDisqualified;
@@ -220,7 +221,7 @@ const QualificationModal = ({ children }) => {
         console.log('Form submitted successfully:', result);
         
       } else {
-        console.log('User not qualified - data not saved:', {
+        console.log('User not qualified - data not saved. Disqualifying selections:', {
           businessType: formData.businessType,
           yearsInBusiness: formData.yearsInBusiness,
           annualRevenue: formData.annualRevenue,
