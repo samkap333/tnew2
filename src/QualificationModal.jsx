@@ -222,6 +222,9 @@ const SimpleQualificationModal = ({ children }) => {
           <p className="text-gray-600 text-lg leading-relaxed">
             Thank you for your submission. Our team will contact you soon for your clarity call.
           </p>
+          <p className="text-gray-600 text-lg leading-relaxed">
+            Please Join our whatsapp Channel - https://chat.whatsapp.com/InRILmn8HmD7fzAA99x4J1
+          </p>
           <button
             onClick={closeModal}
             className="px-8 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-2xl font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
